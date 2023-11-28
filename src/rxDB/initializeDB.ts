@@ -15,6 +15,9 @@ import {
 } from "../utils/auth";
 import { todoSchema } from "./schema/todoList";
 
+import { RxDBMigrationPlugin } from "rxdb/plugins/migration";
+
+addRxPlugin(RxDBMigrationPlugin);
 addRxPlugin(RxDBJsonDumpPlugin);
 addRxPlugin(RxDBQueryBuilderPlugin);
 addRxPlugin(RxDBDevModePlugin);
