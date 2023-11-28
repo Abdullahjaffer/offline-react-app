@@ -38,6 +38,7 @@ const todoSchemaLiteral = {
 	},
 	required: ["id", "text", "isCompleted", "createdAt"],
 	indexes: ["createdAt"],
+	encrypted: ["text"],
 } as const;
 
 const schemaTyped = toTypedRxJsonSchema(todoSchemaLiteral);

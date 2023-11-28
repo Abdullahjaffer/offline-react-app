@@ -1,4 +1,5 @@
 import ChangePasswordButton from "../components/change-password-button";
+import { Export, Import } from "../components/exportImport";
 import TodoList from "../components/todoList";
 import { AuthProvider } from "../context/authProvider";
 import RXDBProvider from "../rxDB/rxDBProvider";
@@ -17,6 +18,8 @@ function App() {
 					log out
 				</button>
 				<ChangePasswordButton />
+				<Export />
+				<Import />
 				<TodoList />
 			</RXDBProvider>
 		</AuthProvider>

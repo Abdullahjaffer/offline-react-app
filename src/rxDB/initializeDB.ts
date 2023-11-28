@@ -6,6 +6,7 @@ import { wrappedKeyEncryptionCryptoJsStorage } from "rxdb/plugins/encryption-cry
 import { addRxPlugin } from "rxdb";
 import { RxDBDevModePlugin } from "rxdb/plugins/dev-mode";
 
+import { RxDBJsonDumpPlugin } from "rxdb/plugins/json-dump";
 import { RxDBQueryBuilderPlugin } from "rxdb/plugins/query-builder";
 import {
 	getDatabasePasswordFromLocal,
@@ -14,6 +15,7 @@ import {
 } from "../utils/auth";
 import { todoSchema } from "./schema/todoList";
 
+addRxPlugin(RxDBJsonDumpPlugin);
 addRxPlugin(RxDBQueryBuilderPlugin);
 addRxPlugin(RxDBDevModePlugin);
 

@@ -8,7 +8,7 @@ export const getRegisteredDatabases = () =>
 	indexedDB.databases().then((r) => {
 		let t = r.map(({ name }) => {
 			let tmp = name?.replace("rxdb-dexie-", "");
-			tmp = tmp?.split("--0--")[0];
+			tmp = tmp?.split("--")[0];
 			return tmp;
 		});
 		return _.uniq(t);
@@ -22,7 +22,7 @@ export const getRegisteredDatabases = () =>
 export const storeDatabasePasswordToLocal = (
 	name: string,
 	password: string,
-	key = makeUniqueId(12)
+	key = makeUniqueId(18)
 ) => {
 	if (password.length < 8) {
 		throw new Error(AUTH_ERRORS.MIN_PASSWORD);
