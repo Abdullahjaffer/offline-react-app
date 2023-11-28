@@ -54,7 +54,7 @@ const initializeDB = async (name: string, password: string) => {
 			},
 		});
 	} catch (err: any) {
-		console.log(err);
+		console.error(err);
 		return Promise.reject(err.code);
 	}
 	return Promise.resolve(databaseConnection);

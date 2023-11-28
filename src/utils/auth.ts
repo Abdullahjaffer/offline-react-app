@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { AUTH_ERRORS } from "./constants/errors";
 import { LOCAL_PASS_STORE_KEY, PASSWORD_PREFIX } from "./constants/keys";
 import { decryptData, encryptData } from "./encryption";
 import makeUniqueId from "./makeId";
@@ -23,6 +24,9 @@ export const storeDatabasePasswordToLocal = (
 	password: string,
 	key = makeUniqueId(12)
 ) => {
+	if (password.length < 8) {
+		throw new Error(AUTH_ERRORS.MIN_PASSWORD);
+	}
 	const pass = PASSWORD_PREFIX + key;
 	const encryptedPass = encryptData(pass, password);
 	let store: any = {};
@@ -44,17 +48,17 @@ export const getDatabasePasswordFromLocal = (
 	}
 	const storedPass = store[name];
 	if (!storedPass) {
-		throw new Error("no existing password found");
+		throw new Error(AUTH_ERRORS.NO_EXISTING_PASSWORD);
 	}
 	try {
 		const decrypted = decryptData(storedPass, password);
 		if (!decrypted.includes(PASSWORD_PREFIX)) {
-			throw new Error("password doesn't match");
+			throw new Error(AUTH_ERRORS.WRONG_PASSWORD);
 		} else {
 			return decrypted.replace(PASSWORD_PREFIX, "");
 		}
 	} catch (e) {
-		throw new Error("password doesn't match");
+		throw new Error(AUTH_ERRORS.WRONG_PASSWORD);
 	}
 };
 
