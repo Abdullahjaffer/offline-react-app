@@ -7,6 +7,11 @@ import { addRxPlugin } from "rxdb";
 import { RxDBDevModePlugin } from "rxdb/plugins/dev-mode";
 
 import { RxDBQueryBuilderPlugin } from "rxdb/plugins/query-builder";
+import {
+	getDatabasePasswordFromLocal,
+	getRegisteredDatabases,
+	storeDatabasePasswordToLocal,
+} from "../utils/auth";
 import { todoSchema } from "./schema/todoList";
 
 addRxPlugin(RxDBQueryBuilderPlugin);
@@ -17,11 +22,9 @@ const encryptedDexieStorage = wrappedKeyEncryptionCryptoJsStorage({
 	storage: getRxStorageDexie(),
 });
 
-// 12345678901112
-
-const createDb = (username: string, password: string) =>
-	createRxDatabase({
-		name: username, // <- name
+const createDb = async (name: string, password: string) => {
+	return createRxDatabase({
+		name: name, // <- name
 		storage: encryptedDexieStorage, // <- RxStorage
 		/* Optional parameters: */
 		password: password, // <- password (optional)
@@ -29,13 +32,22 @@ const createDb = (username: string, password: string) =>
 		eventReduce: true, // <- eventReduce (optional, default: false)
 		cleanupPolicy: {}, // <- custom cleanup policy (optional)
 		ignoreDuplicate: true,
+		instanceCreationOptions: {},
 	});
+};
 
-const initializeDB = async (username: string, password: string) => {
+const initializeDB = async (name: string, password: string) => {
 	// create RxDB
 	let databaseConnection: RxDatabase;
+	let gPassword = "";
 	try {
-		databaseConnection = await createDb(username, password);
+		let existingDBs = await getRegisteredDatabases();
+		if (existingDBs.includes(name)) {
+			gPassword = getDatabasePasswordFromLocal(name, password);
+		} else {
+			gPassword = storeDatabasePasswordToLocal(name, password);
+		}
+		databaseConnection = await createDb(name, gPassword);
 		await databaseConnection.addCollections({
 			characters: {
 				schema: todoSchema,
@@ -45,7 +57,6 @@ const initializeDB = async (username: string, password: string) => {
 		console.log(err);
 		return Promise.reject(err.code);
 	}
-	console.log("hehre", databaseConnection);
 	return Promise.resolve(databaseConnection);
 };
 

@@ -1,17 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RxDatabase } from "rxdb";
 import { Provider } from "rxdb-hooks";
+import ChangePassword from "../../components/change-password";
 import EnterPassword from "../../components/enter-password";
+import { useAuth } from "../../context/authProvider";
+import { getRegisteredDatabases } from "../../utils/auth";
 import initializeDB from "../initializeDB";
 
 const RXDBProvider = ({ children }: any) => {
 	const [db, setDb] = useState<RxDatabase>();
 	const [error, setError] = useState("");
+	const { setUsername } = useAuth();
+
+	const { showChangePassword } = useAuth();
+
+	const [registerDB, setRegisteredDBs] = useState([]);
+	useEffect(() => {
+		getRegisteredDatabases().then((r: any) => {
+			setRegisteredDBs(r);
+		});
+	}, []);
 
 	const init = (username: string, password: string) => {
-		console.log(password);
 		initializeDB(username, password)
-			.then(setDb)
+			.then((db) => {
+				setDb(db);
+				setUsername(username);
+			})
 			.catch((errCode) => {
 				if (errCode === "DB1") {
 					console.log("wrong password");
@@ -25,8 +40,19 @@ const RXDBProvider = ({ children }: any) => {
 
 	if (!db) {
 		return (
-			<EnterPassword onComplete={init} error={error} setError={setError} />
+			<>
+				<EnterPassword onComplete={init} error={error} setError={setError} />
+				<ul>
+					{registerDB.map((dbName) => (
+						<li>{dbName}</li>
+					))}
+				</ul>
+			</>
 		);
+	}
+
+	if (showChangePassword) {
+		return <ChangePassword />;
 	}
 
 	return <Provider db={db}>{children}</Provider>;
