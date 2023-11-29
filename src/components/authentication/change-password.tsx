@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useAuth } from "../context/authProvider";
-import { changePassword } from "../utils/auth";
+import { useAuth } from "../../context/authProvider";
+import { changePassword } from "../../utils/auth";
 
 const ChangePassword = ({ onComplete, error, setError }: any) => {
 	const [oldPassword, setOldPassword] = useState<string>("");

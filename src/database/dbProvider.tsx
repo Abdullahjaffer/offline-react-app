@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { RxDatabase } from "rxdb";
 import { Provider } from "rxdb-hooks";
-import ChangePassword from "../../components/change-password";
-import EnterPassword from "../../components/enter-password";
-import { useAuth } from "../../context/authProvider";
-import { getRegisteredDatabases } from "../../utils/auth";
-import initializeDB from "../initializeDB";
+import ChangePassword from "../components/authentication/change-password";
+import EnterPassword from "../components/authentication/enter-password";
+import { useAuth } from "../context/authProvider";
+import { getRegisteredDatabases } from "../utils/auth";
+import initializeDB from "./initializeDB";
 
 const RXDBProvider = ({ children }: any) => {
 	const [db, setDb] = useState<RxDatabase>();

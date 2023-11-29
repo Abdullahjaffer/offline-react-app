@@ -1,6 +1,6 @@
 import _ from "lodash";
-import { AUTH_ERRORS } from "./constants/errors";
-import { LOCAL_PASS_STORE_KEY, PASSWORD_PREFIX } from "./constants/keys";
+import { AUTH_ERRORS } from "../constants/errors";
+import { LOCAL_PASS_STORE_KEY, PASSWORD_PREFIX } from "../constants/keys";
 import { decryptData, encryptData } from "./encryption";
 import makeUniqueId from "./makeId";
 

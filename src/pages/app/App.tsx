@@ -1,8 +1,8 @@
-import ChangePasswordButton from "../components/change-password-button";
-import { Export, Import } from "../components/exportImport";
-import TodoList from "../components/todoList";
-import { AuthProvider } from "../context/authProvider";
-import RXDBProvider from "../rxDB/rxDBProvider";
+import ChangePasswordButton from "../../components/authentication/change-password-button";
+import { Export, Import } from "../../components/import-export/exportImport";
+import TodoList from "../../components/todoList";
+import { AuthProvider } from "../../context/authProvider";
+import RXDBProvider from "../../database/dbProvider";
 import "./App.css";
 
 function App() {
