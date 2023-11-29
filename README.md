@@ -2,6 +2,6 @@
 
 Offline react application powered by PWA and rxDB.
 
-Database is encrypted and asks for password to login.
+The database is encrypted and asks for a password to log in.
 
-Creates a sperate database for each user.
+Creates a seperate database for each user.
